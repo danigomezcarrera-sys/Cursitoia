@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curso Introductorio de Inteligencia Artificial</title>
+<meta name="description" content="Capacitación interna: microcurso introductorio de Inteligencia Artificial con evaluaciones.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="sidebar">
+    <p class="brand" id="course-title">Curso de IA</p>
+    <p class="brand-sub">Capacitación interna</p>
+
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span class="progress-label" id="progress-label"></span>
+
+    <nav>
+      <div id="nav-list" class="nav-list"></div>
+    </nav>
+
+    <div class="sidebar-foot">
+      El progreso se guarda en este navegador.
+      <br>
+      <button class="reset-btn" id="reset-btn">Reiniciar progreso</button>
+    </div>
+  </aside>
+
+  <main id="app"></main>
+</div>
+
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
