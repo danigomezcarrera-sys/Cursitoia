@@ -20,6 +20,20 @@
   const sidebarNav = document.getElementById("nav-list");
   const progressFill = document.getElementById("progress-fill");
   const progressLabel = document.getElementById("progress-label");
+  const sidebar = document.getElementById("sidebar");
+  const sidebarOverlay = document.getElementById("sidebar-overlay");
+  const menuToggle = document.getElementById("menu-toggle");
+
+  function openSidebar() {
+    sidebar.classList.add("open");
+    sidebarOverlay.classList.add("open");
+  }
+  function closeSidebar() {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("open");
+  }
+  menuToggle.addEventListener("click", openSidebar);
+  sidebarOverlay.addEventListener("click", closeSidebar);
 
   function letters(i) { return String.fromCharCode(65 + i); }
 
@@ -304,6 +318,7 @@
   function navigate(id) {
     window.location.hash = id;
     render(id);
+    closeSidebar();
     window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
   }
 

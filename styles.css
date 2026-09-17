@@ -1,25 +1,24 @@
 /* ---------------------------------------------------
    Curso IA — hoja de estilos
-   Paleta: sala de lectura nocturna / cuaderno académico
+   Paleta: cuaderno académico claro, panel lateral ocultable en mobile
 --------------------------------------------------- */
 
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 :root{
-  --bg: #0E1526;
-  --bg-elevated: #161F35;
-  --paper: #ECE9DF;
-  --paper-2: #E2DECF;
-  --ink: #EAE7DC;
-  --ink-dim: #9AA3BC;
-  --ink-on-paper: #1C2233;
-  --ink-on-paper-dim: #55597A;
-  --line: #2A3350;
-  --line-on-paper: #C9C3AE;
-  --amber: #E3A857;
-  --amber-dim: #B98639;
+  --bg: #F6F3EA;
+  --bg-elevated: #ECE6D6;
+  --paper: #FFFFFF;
+  --ink: #1E2233;
+  --ink-dim: #5A5F76;
+  --line: #DDD5C0;
+  --line-on-paper: #E3DFD1;
+  --amber: #D9A253;
+  --amber-dim: #C08A3A;
+  --amber-text: #8C5F17;
   --teal: #4FA69C;
-  --coral: #D96C55;
+  --teal-text: #1C7A70;
+  --coral: #C1553D;
   --radius: 3px;
   --serif: 'Fraunces', Georgia, serif;
   --sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -37,11 +36,75 @@ body{
   -webkit-font-smoothing: antialiased;
 }
 
-a{ color: var(--teal); }
+a{ color: var(--teal-text); }
 
-::selection{ background: var(--amber); color: var(--ink-on-paper); }
+::selection{ background: var(--amber); color: #221704; }
 
 button{ font-family: inherit; cursor: pointer; }
+
+/* ---------- Mobile topbar ---------- */
+.topbar{
+  display: none;
+  align-items: center;
+  gap: .9rem;
+  padding: .9rem 1.1rem;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 25;
+}
+.topbar .brand-text{
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+@media (max-width: 880px){
+  .topbar{ display: flex; }
+}
+
+.menu-toggle{
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+}
+.menu-toggle .bar{
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--ink);
+}
+.menu-toggle .bar::before,
+.menu-toggle .bar::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 18px;
+  height: 2px;
+  background: var(--ink);
+}
+.menu-toggle .bar::before{ top: -6px; }
+.menu-toggle .bar::after{ top: 6px; }
+
+/* ---------- Sidebar overlay (mobile) ---------- */
+.sidebar-overlay{
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 25, 10, .35);
+  z-index: 35;
+}
+.sidebar-overlay.open{ display: block; }
 
 /* ---------- Layout shell ---------- */
 .shell{
@@ -52,7 +115,6 @@ button{ font-family: inherit; cursor: pointer; }
 
 @media (max-width: 880px){
   .shell{ grid-template-columns: 1fr; }
-  .sidebar{ position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
 }
 
 /* ---------- Sidebar ---------- */
@@ -67,7 +129,19 @@ button{ font-family: inherit; cursor: pointer; }
 }
 
 @media (max-width: 880px){
-  .sidebar{ height: auto; overflow: visible; }
+  .sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 84%;
+    max-width: 320px;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform .25s ease;
+    box-shadow: 4px 0 28px rgba(0,0,0,.18);
+    z-index: 40;
+  }
+  .sidebar.open{ transform: translateX(0); }
 }
 
 .brand{
@@ -122,8 +196,8 @@ button{ font-family: inherit; cursor: pointer; }
   border-radius: var(--radius);
   font-size: .92rem;
 }
-.nav-item:hover{ background: rgba(255,255,255,.04); color: var(--ink); }
-.nav-item.active{ background: rgba(227,168,87,.12); color: var(--ink); }
+.nav-item:hover{ background: rgba(0,0,0,.045); color: var(--ink); }
+.nav-item.active{ background: rgba(217,162,83,.22); color: var(--ink); }
 
 .nav-dot{
   width: 9px;
@@ -132,8 +206,8 @@ button{ font-family: inherit; cursor: pointer; }
   border: 1.5px solid var(--ink-dim);
   flex-shrink: 0;
 }
-.nav-item.active .nav-dot{ border-color: var(--amber); }
-.nav-dot.done{ background: var(--amber); border-color: var(--amber); }
+.nav-item.active .nav-dot{ border-color: var(--amber-text); }
+.nav-dot.done{ background: var(--amber-text); border-color: var(--amber-text); }
 
 .nav-num{ font-family: var(--mono); font-size: .75rem; opacity: .7; }
 
@@ -161,7 +235,7 @@ main{
   max-width: 780px;
 }
 @media (max-width: 600px){
-  main{ padding: 2.25rem 1.25rem 4rem; }
+  main{ padding: 2rem 1.25rem 4rem; }
 }
 
 .module{
@@ -172,7 +246,7 @@ main{
 .module-eyebrow{
   font-family: var(--mono);
   font-size: .8rem;
-  color: var(--teal);
+  color: var(--teal-text);
   margin-bottom: .6rem;
 }
 
@@ -189,7 +263,7 @@ h1.module-title{
   font-family: var(--serif);
   font-style: italic;
   font-size: 1.25rem;
-  color: var(--amber);
+  color: var(--amber-text);
   margin: 0 0 1.75rem;
 }
 
@@ -262,7 +336,8 @@ th{
 /* ---------- Key ideas ---------- */
 .ideas-box{
   background: var(--paper);
-  color: var(--ink-on-paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1.75rem 2rem;
   margin: 2.5rem 0;
@@ -271,10 +346,10 @@ th{
   font-family: var(--serif);
   font-size: 1.15rem;
   margin: 0 0 1rem;
-  color: var(--ink-on-paper);
+  color: var(--ink);
 }
 .ideas-box ul{ margin: 0; padding-left: 1.1rem; }
-.ideas-box li{ color: var(--ink-on-paper-dim); margin-bottom: .5rem; font-size: .95rem; }
+.ideas-box li{ color: var(--ink-dim); margin-bottom: .5rem; font-size: .95rem; }
 
 /* ---------- Quiz ---------- */
 .quiz{
@@ -294,6 +369,7 @@ th{
   font-family: var(--serif);
   font-size: 1.4rem;
   margin: 0;
+  color: var(--ink);
 }
 .quiz-score{
   font-family: var(--mono);
@@ -303,7 +379,8 @@ th{
 
 .q-block{
   background: var(--paper);
-  color: var(--ink-on-paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1.5rem 1.75rem;
   margin-bottom: 1.25rem;
@@ -313,7 +390,7 @@ th{
   font-size: .72rem;
   text-transform: uppercase;
   letter-spacing: .04em;
-  color: var(--ink-on-paper-dim);
+  color: var(--ink-dim);
   margin-bottom: .5rem;
   display: block;
 }
@@ -321,7 +398,7 @@ th{
   font-size: 1.02rem;
   font-weight: 600;
   margin: 0 0 1rem;
-  color: var(--ink-on-paper);
+  color: var(--ink);
 }
 
 .q-options{
@@ -335,23 +412,23 @@ th{
   align-items: flex-start;
   gap: .65rem;
   text-align: left;
-  background: #fff;
+  background: var(--bg);
   border: 1px solid var(--line-on-paper);
   border-radius: var(--radius);
   padding: .65rem .85rem;
   font-size: .93rem;
-  color: var(--ink-on-paper);
+  color: var(--ink);
 }
 .q-option:hover{ border-color: var(--teal); }
 .q-option .letter{
   font-family: var(--mono);
   font-weight: 600;
-  color: var(--ink-on-paper-dim);
+  color: var(--ink-dim);
   flex-shrink: 0;
 }
 
-.q-option.selected{ border-color: var(--ink-on-paper); }
-.q-option.correct{ border-color: var(--teal); background: #E4F3F1; }
+.q-option.selected{ border-color: var(--ink); }
+.q-option.correct{ border-color: var(--teal); background: #E1F2EF; }
 .q-option.incorrect{ border-color: var(--coral); background: #FBEAE6; }
 .q-option:disabled{ cursor: default; }
 
@@ -363,7 +440,7 @@ th{
   font-size: .88rem;
   font-weight: 600;
 }
-.q-feedback.correct{ color: #1D7C71; }
+.q-feedback.correct{ color: #146F65; }
 .q-feedback.incorrect{ color: var(--coral); }
 
 .quiz-actions{
@@ -375,7 +452,7 @@ th{
 }
 .btn{
   background: var(--amber);
-  color: #1C1305;
+  color: #241804;
   border: none;
   font-weight: 600;
   padding: .7rem 1.4rem;
@@ -416,6 +493,7 @@ th{
   line-height: 1.15;
   margin: 0 0 1rem;
   max-width: 16ch;
+  color: var(--ink);
 }
 .home-hero p{
   color: var(--ink-dim);
@@ -431,7 +509,7 @@ th{
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  background: var(--bg-elevated);
+  background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1.25rem 1.5rem;
@@ -450,7 +528,7 @@ th{
 .module-card .info .t{ font-weight: 600; margin-bottom: .2rem; }
 .module-card .info .q{ font-size: .88rem; color: var(--ink-dim); font-style: italic; }
 .module-card .status{ font-family: var(--mono); font-size: .75rem; color: var(--ink-dim); flex-shrink: 0; }
-.module-card .status.done{ color: var(--teal); }
+.module-card .status.done{ color: var(--teal-text); }
 
 /* ---------- Siguientes pasos ---------- */
 .roadmap{
@@ -470,6 +548,6 @@ th{
 .roadmap-item .area{
   font-family: var(--serif);
   font-weight: 600;
-  color: var(--amber);
+  color: var(--amber-text);
 }
 .roadmap-item p{ margin: 0; color: var(--ink-dim); font-size: .95rem; }
